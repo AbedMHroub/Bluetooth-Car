@@ -11,6 +11,12 @@ char command;
 
 #include <Servo.h>
 
+#include <Wire.h> // Library for I2C communication
+#include <LiquidCrystal_I2C.h> // Library for LCD
+// Wiring: SDA pin is connected to A4 and SCL pin to A5.
+// Connect to LCD via I2C, default address 0x27 (A0-A2 not jumpered)
+LiquidCrystal_I2C lcd = LiquidCrystal_I2C(0x27, 20, 4); // Change to (0x27,16,2) for 16x2 LCD.
+
 #define echoPin 12 // attach pin D2 Arduino to pin Echo of HC-SR04
 #define trigPin 13 //attach pin D3 Arduino to pin Trig of HC-SR04
 
@@ -41,6 +47,9 @@ void setup() {
   
   pinMode(trigPin, OUTPUT); // Sets the trigPin as an OUTPUT
   pinMode(echoPin, INPUT); // Sets the echoPin as an INPUT
+  // Initiate the LCD:
+  lcd.init();
+  lcd.backlight(); 
   Serial.begin(9600);
  
 }
@@ -91,6 +100,9 @@ void loop() {
 //move forward(all motors rotate in forward direction)
 void forward() {
   Serial.println("Hello F");
+  lcd.setCursor(0, 0); // Set the cursor on the first column and first row.
+  lcd.clear();
+  lcd.print("Hello F"); // Print the string
   digitalWrite(right_forward, HIGH);
   digitalWrite(left_forward, LOW);
   digitalWrite(left_reverse, HIGH);
@@ -100,6 +112,9 @@ void forward() {
 //move reverse (all motors rotate in reverse direction)
 void backward() {
   Serial.println("Hello B");
+  lcd.setCursor(0, 0); // Set the cursor on the first column and first row.
+  lcd.clear();
+  lcd.print("Hello B"); // Print the string
   digitalWrite(right_forward, LOW);
   digitalWrite(left_forward, HIGH);
   digitalWrite(left_reverse, LOW);
@@ -109,6 +124,9 @@ void backward() {
 //turn right (left side motors rotate in forward direction, right side motors doesn't rotate)
 void left() {
   Serial.println("Hello L");
+  lcd.setCursor(0, 0); // Set the cursor on the first column and first row.
+  lcd.clear();
+  lcd.print("Hello L"); // Print the string
   digitalWrite(right_forward, LOW);
   digitalWrite(left_forward, LOW);
   digitalWrite(left_reverse, HIGH);
@@ -118,6 +136,9 @@ void left() {
 //turn left (right side motors rotate in forward direction, left side motors doesn't rotate)
 void right() {
   Serial.println("Hello R");
+  lcd.setCursor(0, 0); // Set the cursor on the first column and first row.
+  lcd.clear();
+  lcd.print("Hello R"); // Print the string
   digitalWrite(right_forward, HIGH);
   digitalWrite(left_forward, LOW);
   digitalWrite(left_reverse, LOW);
@@ -126,6 +147,9 @@ void right() {
  
 void stopCar() {
   Serial.println("Hello STOP");
+  lcd.setCursor(0, 0); // Set the cursor on the first column and first row.
+  lcd.clear();
+  lcd.print("Hello STOP"); // Print the string
   digitalWrite(left_forward, LOW);
   digitalWrite(left_reverse, LOW);
   digitalWrite(right_forward, LOW);
